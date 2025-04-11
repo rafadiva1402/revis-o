@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Revisão Pré-Modernismo</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #fff7e6; }
+    .quiz-container { max-width: 600px; margin: auto; }
+    .question { font-size: 1.2em; margin-bottom: 15px; }
+    .option { display: block; margin: 10px 0; padding: 10px; background: #f0f0f0; border: none; width: 100%; cursor: pointer; font-size: 1em; border-radius: 5px; }
+    .correct { background-color: #8fdf82; }
+    .wrong { background-color: #f78c8c; }
+    #result { margin-top: 20px; font-weight: bold; font-size: 1.2em; }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Revisão Pré-Modernismo</h1>
+    <div id="quiz">
+      <div class="question" id="question"></div>
+      <div id="options"></div>
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "Qual foi o período aproximado do Pré-Modernismo no Brasil?",
+        options: ["1888 a 1902", "1902 a 1922", "1922 a 1930", "1890 a 1910"],
+        answer: 1
+      },
+      {
+        question: "Quem escreveu 'Os Sertões'?",
+        options: ["Monteiro Lobato", "Lima Barreto", "Euclides da Cunha", "Aluísio Azevedo"],
+        answer: 2
+      },
+      {
+        question: "O personagem Jeca Tatu representa:",
+        options: ["Um herói urbano", "O sertanejo ideal", "O atraso rural", "Um militar"],
+        answer: 2
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function showQuestion() {
+      const q = questions[current];
+      document.getElementById("question").innerText = q.question;
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+      q.options.forEach((opt, index) => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(index);
+        optionsDiv.appendChild(btn);
+      });
+      document.getElementById("result").innerText = "";
+    }
+
+    function checkAnswer(index) {
+      const q = questions[current];
+      const buttons = document.querySelectorAll(".option");
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === q.answer) btn.classList.add("correct");
+        if (i === index && i !== q.answer) btn.classList.add("wrong");
+      });
+      if (index === q.answer) score++;
+      setTimeout(() => {
+        current++;
+        if (current < questions.length) {
+          showQuestion();
+        } else {
+          document.getElementById("quiz").innerHTML = "<h2>Você acertou " + score + " de " + questions.length + " perguntas!</h2>";
+        }
+      }, 1000);
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>
